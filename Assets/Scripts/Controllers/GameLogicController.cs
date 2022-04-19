@@ -46,11 +46,11 @@ public class GameLogicController :  Singleton<GameLogicController>
     {
         switch (instance.statePlayer)
         {
-            case enumState.PLAYER_CHOICE:
-                BoardController.PlayerTurn();
-            break;
             case enumState.WAIT_OPPONENT:
                 BoardController.OpponentTurn();
+            break;
+            case enumState.PLAYER_CHOICE:
+                BoardController.PlayerTurn();
             break;
         }
     }

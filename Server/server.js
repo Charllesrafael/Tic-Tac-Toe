@@ -17,18 +17,25 @@ const dataClient = {
 
 wss.on('listening', OnListening)
 
-wss.on('close' , OnCloseServer)
+function OnListening() {
+    console.log('SERVIDOR ESTA OUVINDO PORTA 8080 ')
+}
 
 wss.on('connection', (ws) => {
     
-    ValideLimit(ws)
-    OnStartGame(ws)
+    ClientLimit(ws)
+    StartGame(ws)
     
     ws.on('message', OnMessage(ws))
-    ws.on('close', OnCloseClient)
 })
 
-function OnStartGame(ws) {
+function ClientLimit(ws) {
+    if (wss.clients.size > limitMax) {
+        ws.close();
+    }
+}
+
+function StartGame(ws) {
     players.push(ws)
 
     dataClient.type = 'STATE'
@@ -62,21 +69,6 @@ function OnMessage(ws) {
                 break
         }
     }
-}
-
-function OnRestart() {
-    
-    for (let index = 0; index < gameGrid.length; index++) {
-        gameGrid[index] = ''
-    }
-    dataClient.messages = gameGrid
-    dataClient.type = 'RESTART'
-
-    dataClient.message = 'PLAYER_CHOICE'
-    players[0].send(JSON.stringify(dataClient))
-
-    dataClient.message = 'WAIT_OPPONENT'
-    players[1].send(JSON.stringify(dataClient))
 }
 
 function OnChoice(ws, message) {
@@ -141,23 +133,17 @@ function GameLogic(fisrtPlayer) {
     
 }
 
-
-function ValideLimit(ws) {
-    console.log('wss.clients.size = ' +wss.clients.size)
-    if (wss.clients.size > limitMax) {
-        ws.close();
+function OnRestart() {
+    
+    for (let index = 0; index < gameGrid.length; index++) {
+        gameGrid[index] = ''
     }
-}
+    dataClient.messages = gameGrid
+    dataClient.type = 'RESTART'
 
-function OnCloseClient(ws, req) {
-    wss.clients.delete(ws)
-    console.log(ws.id + '  desconectou ' + wss.clients.size)
-}
+    dataClient.message = 'PLAYER_CHOICE'
+    players[0].send(JSON.stringify(dataClient))
 
-function OnListening() {
-    console.log('SERVIDOR ESTA OUVINDO PORTA 8080 ')
-}
-
-function OnCloseServer() {
-    console.log('alguem desconectou')
+    dataClient.message = 'WAIT_OPPONENT'
+    players[1].send(JSON.stringify(dataClient))
 }

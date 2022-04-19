@@ -4,7 +4,6 @@ using UnityEngine;
 public class WebSocketJslib : MonoBehaviour
 {
     public static Action<string> OnConnected;
-    public static Action<string> OnClose;
     public static Action<TypeAndMessage> OnMessage;
     public static Action<string> OnError;
 
@@ -12,12 +11,6 @@ public class WebSocketJslib : MonoBehaviour
     {
         Debug.Log("Connected : "+message);
         OnConnected?.Invoke(message);
-    }
- 
-    public void Close(string message)
-    {
-        Debug.Log("Close : "+message);
-        OnClose?.Invoke(message);
     }
 
     public void Message(string message)

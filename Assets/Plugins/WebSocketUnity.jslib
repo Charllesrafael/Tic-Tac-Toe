@@ -9,15 +9,10 @@ var WebSocketUnity = {
 		var init_url = Pointer_stringify(url);
 		var nameObject = Pointer_stringify(nameGameObject);
 		window.wsclient = new WebSocket (init_url);
+		
 		window.wsclient.onopen = function(evt){
 			console.log("[open] " + init_url);
 			SendMessage(nameObject, "Connected", "");
-		};
-
-		window.wsclient.onclose = function(evt) {
-			console.log("[close] " + evt.code + ":" + evt.reason);
-			var data = evt.data;
-			SendMessage(nameObject, "Close", "Server closed?");
 		};
 
 		window.wsclient.onmessage = function(evt) {
@@ -33,15 +28,9 @@ var WebSocketUnity = {
 			SendMessage(nameObject, "Error", data);
 		};
 	},
-	State: function(){
-		var status = 0;
-		if ((typeof window.wsclient !== "undefined") && (window.wsclient !== null))
-			status = window.wsclient.readystate;
-		return status;
-	},
 	Send: function(type, msg){
-		var message = Pointer_stringify(msg);
 		var typeText = Pointer_stringify(type);
+		var message = Pointer_stringify(msg);
 		var dataMessage = {
 			type: typeText,
 			message: message
@@ -54,13 +43,6 @@ var WebSocketUnity = {
 		else
 		{
 			console.log("[send-failed] " + dataMessage);
-		}
-	},
-	Close: function(nameGameObject){
-		if ((typeof window.wsclient !== "undefined") && (window.wsclient !== null)){
-			window.wsclient.close(1000);
-			var nameObject = Pointer_stringify(nameGameObject);
-			SendMessage(nameObject, "Close", "Client Closed");
 		}
 	}
 }
