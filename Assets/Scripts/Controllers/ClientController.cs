@@ -34,7 +34,7 @@ public class ClientController : Singleton<ClientController>
         OnGridReceived(data);
         switch (data.type)
         {
-            case "STATE"://Start choice or wait opponent
+            case "STATE":
                 OnStateReceived(data);
                 break;
             case "RESULT":

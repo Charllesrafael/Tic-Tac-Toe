@@ -3,13 +3,9 @@ using UnityEngine;
 
 public class GameLogicController :  Singleton<GameLogicController>
 {
-
-    private bool optionX;
-
     public enum enumState{
         PLAYER_CHOICE,
-        WAIT_OPPONENT,
-        WAIT_RESULT
+        WAIT_OPPONENT
     }
     internal enumState statePlayer;
 
@@ -18,6 +14,7 @@ public class GameLogicController :  Singleton<GameLogicController>
     {
         instance = this;
     }
+
     internal static void Init()
     {
         ClientController.Init();

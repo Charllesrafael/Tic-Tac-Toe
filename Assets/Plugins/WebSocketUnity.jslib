@@ -17,14 +17,13 @@ var WebSocketUnity = {
 		window.wsclient.onclose = function(evt) {
 			console.log("[close] " + evt.code + ":" + evt.reason);
 			var data = evt.data;
-			SendMessage(nameObject, "Close", "Server Fechou?");
+			SendMessage(nameObject, "Close", "Server closed?");
 		};
 
 		window.wsclient.onmessage = function(evt) {
 			var data = evt.data;
 			console.log("[recv] " + data);
 			SendMessage(nameObject, "Message", data);
-
 		};
 
 		window.wsclient.onerror = function(evt) {
@@ -61,7 +60,7 @@ var WebSocketUnity = {
 		if ((typeof window.wsclient !== "undefined") && (window.wsclient !== null)){
 			window.wsclient.close(1000);
 			var nameObject = Pointer_stringify(nameGameObject);
-			SendMessage(nameObject, "Close", "eu fechei ?");
+			SendMessage(nameObject, "Close", "Client Closed");
 		}
 	}
 }

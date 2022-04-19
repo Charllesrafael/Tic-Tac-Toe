@@ -47,8 +47,6 @@ public class BlockBoard : MonoBehaviour
         prefab[1].SetActive(false);
         selected = false;
         mesh.material.color = idleColor.color;
-
-        //SetActive(true, true);
     }
 
     internal void SetActive(bool value, bool all = false){

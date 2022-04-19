@@ -6,15 +6,15 @@ public class GameController : Singleton<GameController>
 
     public void Connect()
     {
-        GameLogicController.Init();
         UIGame.GameConnect(false);
         UIGame.WaitingConnection(true);
+        GameLogicController.Init();
     } 
 
     public void RestartGame(){
-        GameLogicController.RestartGame();
         UIGame.GameResult(false);
         UIGame.WaitOpponent(true);
+        GameLogicController.RestartGame();
     }
 
     public static void StartGame()
